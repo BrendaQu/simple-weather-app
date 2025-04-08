@@ -75,10 +75,11 @@ async function fetchData() {
         if (item.main.temp_min < current_min_temp) {
           current_min_temp = item.main.temp_min;
         }
-        //Picking 18:00:00 tme for icon and description, idealy API should only return one icon for 5 day forecast, but working with free tier api so it shows 5 day forecast for every 3 hours
+        //Picking 21:00:00 time for icon and description. Since 21:00:00 time will always be present.
+        // Idealy API should only return one icon for 5 day forecast, but working with free tier api so it shows 5 day forecast for every 3 hours
         if (
           item.dt_txt.substring(item.dt_txt.length - 8, item.dt_txt.length) ===
-          "18:00:00"
+          "21:00:00"
         ) {
           weather_icon = item.weather[0].icon;
           weather_description = item.weather[0].description;
@@ -93,21 +94,21 @@ async function fetchData() {
       weather_description: weather_description,
     });
   }
-  //Popular Next hours forecast for the current date, date is in UTC time
-  const current_date = moment.utc().format().substring(0, 10);
-  data.value?.list.forEach((item: any) => {
-    if (item.dt_txt.substring(0, 10) === current_date) {
-      hourly_array.value.push({
-        temp: item.main.temp.toFixed(0) + "°",
-        hour: moment(
-          item.dt_txt.substring(item.dt_txt.length - 8, item.dt_txt.length),
-          "hh"
-        ).format("LT"),
-        prep: (item.pop * 100).toFixed(0) + "%",
-        weather_icon: item.weather[0].icon,
-      });
-    }
-  });
+  //Populate Next Hours with the first 5 hours in the list, date is in UTC time. Could be from current date hours or next day hours
+  for (let i = 0; i < 5; i++) {
+    hourly_array.value.push({
+      temp: data.value?.list[i].main.temp.toFixed(0) + "°",
+      hour: moment(
+        data.value?.list[i].dt_txt.substring(
+          data.value?.list[i].dt_txt.length - 8,
+          data.value?.list[i].dt_txt.length
+        ),
+        "hh"
+      ).format("LT"),
+      prep: (data.value?.list[i].pop * 100).toFixed(0) + "%",
+      weather_icon: data.value?.list[i].weather[0].icon,
+    });
+  }
 }
 </script>
 <style lang="css" scoped>
