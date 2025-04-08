@@ -1,5 +1,19 @@
-# Vue 3 + Vite
+# Simple Weather App
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Getting Started
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+After cloning the repository `git clone https://github.com/BrendaQu/simple-weather-app.git`
+
+Update the `VITE_WEATHER_API_KEY` in .env file with API key.
+
+Run the following commands to spin up app.
+
+```
+npm install
+npm run dev
+```
+
+## Project Overview
+
+Simple weather app will display Next Hours forecast and Next 5 days forecast for the following three cities: Rio de Janeiro, Beijing, and Los Angeles. Tabbing through each city will refresh the data.
+![Screenshot](./public/simple-weather-app.png)
